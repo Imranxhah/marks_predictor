@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPredict - Score Prediction Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .secondary-gradient {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .form-card {
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        .result-card {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        /* Custom form styling */
+        input, select {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input:focus, select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <span class="font-bold text-xl">ExamPredict</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/about" class="nav-link">About</a>
+                    <a href="/#features" class="nav-link">Features</a>
+                    <a href="/#how-it-works" class="nav-link">How It Works</a>
+                    <a href="/#testimonials" class="nav-link">Testimonials</a>
+                </div>
+                <div>
+                    <a href="/" class="bg-white text-indigo-600 px-6 py-2 rounded-full font-medium hover:bg-opacity-90 transition duration-300">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Form Section -->
+    <section class="secondary-gradient py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-indigo-900 mb-3">Exam Score Predictor</h1>
+                <p class="text-gray-600 max-w-2xl mx-auto">Enter your academic and personal data below to get an accurate prediction of your exam performance</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white rounded-xl p-8 form-card">
+                <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% csrf_token %}
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Previous GPA (0.0 – 4.0)</label>
+                        {{ form.previous_gpa }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Motivation Level (1 – 10)</label>
+                        {{ form.motivation_level }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Study Hours Per Day (0 – 12)</label>
+                        {{ form.study_hours_per_day }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Screen Time (0 – 12)</label>
+                        {{ form.screen_time }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Access to Tutoring</label>
+                        {{ form.access_to_tutoring }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Study Environment</label>
+                        {{ form.study_environment }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Sleep Hours (0 – 12)</label>
+                        {{ form.sleep_hours }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Exercise Frequency (0 – 7 days/week)</label>
+                        {{ form.exercise_frequency }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Dropout Risk</label>
+                        {{ form.dropout_risk }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Stress Level (1 – 10)</label>
+                        {{ form.stress_level }}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Exam Anxiety Score (1 – 10)</label>
+                        {{ form.exam_anxiety_score }}
+                    </div>
+
+                    <div class="md:col-span-2 mt-4">
+                        <button type="submit" class="w-full py-3 px-6 text-white font-medium rounded-lg submit-btn flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            Predict Exam Score
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {% if result %}
+            <div class="max-w-4xl mx-auto mt-8 result-card rounded-xl p-8 text-center text-white animate-fade-in">
+                <div class="flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">Predicted Exam Score</h2>
+                <div class="text-5xl font-bold">{{ result }}</div>
+                <p class="mt-4 text-white/80">This prediction is based on your academic and personal data inputs</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Features Highlight -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Use Our Predictor?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Our tool considers multiple factors that influence academic performance</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-indigo-50 p-6 rounded-xl">
+                    <div class="bg-indigo-100 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Comprehensive Analysis</h3>
+                    <p class="text-gray-600">We analyze both academic factors and lifestyle habits to provide accurate predictions.</p>
+                </div>
+                
+                <div class="bg-purple-50 p-6 rounded-xl">
+                    <div class="bg-purple-100 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Actionable Insights</h3>
+                    <p class="text-gray-600">Get personalized recommendations on how to improve your academic performance.</p>
+                </div>
+                
+                <div class="bg-blue-50 p-6 rounded-xl">
+                    <div class="bg-blue-100 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Privacy</h3>
+                    <p class="text-gray-600">Your information is secure with us. We never share your personal data with third parties.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <span class="font-bold text-xl">ExamPredict</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="/" class="hover:text-indigo-300 transition duration-300">Home</a>
+                     <a href="/about" class="hover:text-indigo-300 transition duration-300">About</a>
+                    <a href="/#features" class="hover:text-indigo-300 transition duration-300">Features</a>
+                    <a href="/#how-it-works" class="hover:text-indigo-300 transition duration-300">How It Works</a>
+                    <a href="/#testimonials" class="hover:text-indigo-300 transition duration-300">Testimonials</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-6 pt-6 text-center text-gray-400 text-sm">
+                <p>© 2025 ExamPredict. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add animation for result card
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultCard = document.querySelector('.result-card');
+            if (resultCard) {
+                resultCard.classList.add('opacity-0');
+                setTimeout(() => {
+                    resultCard.classList.add('transition-opacity', 'duration-1000', 'ease-in-out');
+                    resultCard.classList.remove('opacity-0');
+                }, 300);
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'954438232086909b',t:'MTc1MDY4NDE2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
